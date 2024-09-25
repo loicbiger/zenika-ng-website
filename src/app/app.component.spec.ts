@@ -1,35 +1,42 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import {ProductComponent} from "./product/product.component";
+import {MenuComponent} from "./menu/menu.component";
+import {By} from "@angular/platform-browser";
+import {Product} from "./product/product.types";
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([])
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [AppComponent, ProductComponent, MenuComponent],
+    });
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'zenika-ng-website'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('zenika-ng-website');
+  it('should display the products', () => {
+    const productElements = fixture.debugElement.queryAll(By.css('app-product'));
+    expect(productElements.length).toBe(component.products.length);
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, zenika-ng-website');
+  it('should update the total when "addToBasket" class method is called', () => {
+    const product: Product = { id: 'test', title: 'Test Product', description: 'Test Description', price: 10, stock: 1, photo: 'test.jpg' };
+    component.updateTotal(product);
+    expect(component.total).toBe(10);
+  });
+
+  it('should update the total when a product emits the "addToBasket" event', () => {
+    const product: Product = { id: 'test', title: 'Test Product', description: 'Test Description', price: 10, stock: 1, photo: 'test.jpg' };
+    const productComponent = fixture.debugElement.query(By.directive(ProductComponent)).componentInstance as ProductComponent;
+    productComponent.addToBasket.emit(product);
+    expect(component.total).toBe(10);
   });
 });
