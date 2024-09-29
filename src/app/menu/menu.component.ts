@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {BasketService} from "../basket/basket.service";
 
 @Component({
   selector: 'app-menu',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './menu.component.css'
 })
 export class MenuComponent {
-
+  constructor(public basketService: BasketService) {}
 }

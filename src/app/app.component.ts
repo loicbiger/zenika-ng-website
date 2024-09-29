@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Product} from "./product/product.types";
+import {BasketService} from "./basket/basket.service";
+import {CatalogService} from "./catalog/catalog.service";
+import {APP_TITLE} from "./app.token";
+import {SelectProductKey} from "./select-product-key/select-product-key.types";
 
 @Component({
   selector: 'app-root',
@@ -7,42 +11,5 @@ import {Product} from "./product/product.types";
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  total: number = 0;
 
-  products: Product[] = [ {
-    "id": "welsch",
-    "title": "Coding the welsch",
-    "description": "Tee-shirt col rond - Homme",
-    "photo": "/assets/coding-the-welsch.jpg",
-    "price": 20,
-    "stock": 2
-  },
-    {
-      "id": "world",
-      "title": "Coding the world",
-      "description": "Tee-shirt col rond - Homme",
-      "photo": "/assets/coding-the-world.jpg",
-      "price": 18,
-      "stock": 2
-    },
-    {
-      "id": "vador",
-      "title": "Duck Vador",
-      "description": "Tee-shirt col rond - Femme",
-      "photo": "/assets/coding-the-stars.jpg",
-      "price": 21,
-      "stock": 2
-    },
-    {
-      "id": "snow",
-      "title": "Coding the snow",
-      "description": "Tee-shirt col rond - Femme",
-      "photo": "/assets/coding-the-snow.jpg",
-      "price": 19,
-      "stock": 2
-    }]
-
-  updateTotal(product: Product) {
-    this.total += product.price;
-  }
 }

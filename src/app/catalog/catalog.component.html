@@ -1,0 +1,22 @@
+<main class="py-4 container">
+    <header class="p-4 mb-4 bg-light rounded-3">
+        <h1>{{appTitle}}</h1>
+        <p>Votre panier s'élève à {{basketService.total | currency }}</p>
+        <p class="mb-0"><a class="btn btn-primary btn-large" [routerLink]="['/basket']">Voir mon panier</a></p>
+    </header>
+
+    <h2 class="h4">Catalogue</h2>
+    <app-select-product-key [(productKey)]="productKey" />
+    <div *ngIf="hasProductsInStock(); else noStock">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <ng-container *ngFor="let product of catalogService.products! | sortProductsPipe:productKey">
+                <div class="col" *ngIf="product.stock > 0">
+                    <app-product [product]="product" (addToBasket)="onAddToBasket($event)"></app-product>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <ng-template #noStock>
+        <p><i>Désolé, notre stock est vide !</i></p>
+    </ng-template>
+</main>

@@ -50,4 +50,18 @@ describe('ProductComponent', () => {
     button.click();
     expect(component.addToBasket.emit).toHaveBeenCalledWith(component.product);
   });
+
+  it('should not add the "text-bg-warning" class when stock is greater than 1', () => {
+    component.product.stock = 2;
+    fixture.detectChanges();
+    const card = fixture.debugElement.query(By.css('.card')).nativeElement;
+    expect(card.classList).not.toContain('text-bg-warning');
+  });
+
+  it('should add the "text-bg-warning" class when stock is equal to 1', () => {
+    component.product.stock = 1;
+    fixture.detectChanges();
+    const card = fixture.debugElement.query(By.css('.card')).nativeElement;
+    expect(card.classList).toContain('text-bg-warning');
+  });
 });
